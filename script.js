@@ -128,6 +128,25 @@ const displayMovements = movements => {
   });
 };
 displayMovements(account1.movements);
+
+const calcAndDisplayBalance = movements => {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+
+  labelBalance.textContent = `${balance}€`;
+};
+calcAndDisplayBalance(account1.movements);
+
+const createUserNames = accs => {
+  accs.forEach(acc => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+createUserNames(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -195,22 +214,33 @@ const currencies = new Map([
 
 // THE REDUCE METHOD
 
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// // accumulator -> SNOWBALL
+// // const balance = movements.reduce((acc, cur, i, arr) => {
+// //   console.log(`Iteration ${i}: ${acc}`);
+// //   return acc + cur;
+// // }, 0);
+
+// const balance = movements.reduce((acc, cur, i, arr) => acc + cur, 0);
+
+// console.log(balance);
+
+// // to samo z FOR OF
+
+// let balance2 = 0;
+// for (const mov of movements) {
+//   balance2 += mov;
+//   console.log(balance2);
+// }
+
+// MAXIMUM VALUE OF ARRAY
+
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// accumulator -> SNOWBALL
-// const balance = movements.reduce((acc, cur, i, arr) => {
-//   console.log(`Iteration ${i}: ${acc}`);
-//   return acc + cur;
-// }, 0);
+const greaterMov = movements.reduce(
+  (acc, mov) => (acc > mov ? acc : mov),
+  movements[0]
+);
 
-const balance = movements.reduce((acc, cur, i, arr) => acc + cur, 0);
-
-console.log(balance);
-
-// to samo z FOR OF
-
-let balance2 = 0;
-for (const mov of movements) {
-  balance2 += mov;
-  console.log(balance2);
-}
+console.log(greaterMov);
