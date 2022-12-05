@@ -142,53 +142,75 @@ const currencies = new Map([
 
 // the MAP method
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
-const eurToUsd = 1.1;
-const movementsUsd = movements.map(mov => mov * eurToUsd);
-
-console.log(movements, movementsUsd);
-
-const movementsDescription = movements.map(
-  (mov, i) =>
-    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
-      mov
-    )}`
-);
-
-console.log(movementsDescription);
-
-const createUserNames = accs => {
-  accs.forEach(acc => {
-    acc.username = acc.owner
-      .toLowerCase()
-      .split(' ')
-      .map(name => name[0])
-      .join('');
-  });
-};
-
-createUserNames(accounts);
-
-console.log(accounts);
-
-// console.log(createUserNames('Steven Thomas Williams'));
-// accounts.forEach(account => createUserNames(account.owner));
-
-// const user = 'Steven Thomas Williams'; //stw - username
-
-// the FILTER METHOD
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-const deposits = movements.filter(mov => mov > 0);
+// const eurToUsd = 1.1;
+// const movementsUsd = movements.map(mov => mov * eurToUsd);
 
-console.log(deposits); //zwraca (5) [200, 450, 3000, 70, 1300]
+// console.log(movements, movementsUsd);
 
-// to samo z for of
-// const depositsFor = [];
-// for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+// const movementsDescription = movements.map(
+//   (mov, i) =>
+//     `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+//       mov
+//     )}`
+// );
 
-// console.log(depositsFor);
+// console.log(movementsDescription);
 
-const withdrawals = movements.filter(mov => mov < 0);
-console.log(withdrawals);
+// const createUserNames = accs => {
+//   accs.forEach(acc => {
+//     acc.username = acc.owner
+//       .toLowerCase()
+//       .split(' ')
+//       .map(name => name[0])
+//       .join('');
+//   });
+// };
+
+// createUserNames(accounts);
+
+// console.log(accounts);
+
+// // console.log(createUserNames('Steven Thomas Williams'));
+// // accounts.forEach(account => createUserNames(account.owner));
+
+// // const user = 'Steven Thomas Williams'; //stw - username
+
+// // the FILTER METHOD
+// // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// const deposits = movements.filter(mov => mov > 0);
+
+// console.log(deposits); //zwraca (5) [200, 450, 3000, 70, 1300]
+
+// // to samo z for of
+// // const depositsFor = [];
+// // for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+
+// // console.log(depositsFor);
+
+// const withdrawals = movements.filter(mov => mov < 0);
+// console.log(withdrawals);
+
+// THE REDUCE METHOD
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// accumulator -> SNOWBALL
+// const balance = movements.reduce((acc, cur, i, arr) => {
+//   console.log(`Iteration ${i}: ${acc}`);
+//   return acc + cur;
+// }, 0);
+
+const balance = movements.reduce((acc, cur, i, arr) => acc + cur, 0);
+
+console.log(balance);
+
+// to samo z FOR OF
+
+let balance2 = 0;
+for (const mov of movements) {
+  balance2 += mov;
+  console.log(balance2);
+}
