@@ -1,4 +1,54 @@
 'use strict';
+// /* Working With Arrays
+// Coding Challenge #1 */
+
+// /* § Data 1: Julia's data [3, 5, 2, 12, 7], Kate's data [4, 1, 15, 8, 3]
+// § Data 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4] */
+
+// // MY SOLUTION
+
+// const dogsJulia = [3, 5, 2, 12, 7];
+// const dogsKate = [4, 1, 15, 8, 3];
+// // const dogsJulia = [9, 16, 6, 8, 3];
+// // const dogsKate = [10, 5, 6, 1, 4];
+
+// const dogsJuliaCorrect = dogsJulia.slice(1, -2);
+
+// const bothData = [...dogsJuliaCorrect, ...dogsKate];
+
+// const checkDogs = arr => {
+//   arr.forEach((age, i) => {
+//     const result =
+//       age >= 3
+//         ? `Dog number ${i + 1}
+//     is an adult, and is ${age} years old 🐕‍🦺`
+//         : `Dog number ${i + 1} is still a puppy 🐶`;
+//     console.log(result);
+//   });
+// };
+// checkDogs(bothData);
+// // checkDogs(dogsKate);
+
+// // TEACHER'S SOLUTION
+
+// const checkDogs2 = function (dogsJulia2, dogsKate2) {
+//   const dogsJuliaCorrected = dogsJulia2.slice();
+//   dogsJuliaCorrected.splice(0, 1);
+//   dogsJuliaCorrected.splice(-2);
+
+//   const dogs = dogsJuliaCorrected.concat(dogsKate);
+
+//   dogs.forEach(function (dog, i) {
+//     if (dog >= 3) {
+//       console.log(`Dog number ${i + 1}
+//     is an adult, and is ${dog} years old 🐕‍🦺`);
+//     } else {
+//       console.log(`Dog number ${i + 1} is still a puppy 🐶`);
+//     }
+//   });
+// };
+// checkDogs2([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
+// checkDogs2([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -88,57 +138,41 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
 /////////////////////////////////////////////////
 
-/* Working With Arrays
-Coding Challenge #1 */
+// the MAP method
 
-/* § Data 1: Julia's data [3, 5, 2, 12, 7], Kate's data [4, 1, 15, 8, 3]
-§ Data 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4] */
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// MY SOLUTION
+const eurToUsd = 1.1;
+const movementsUsd = movements.map(mov => mov * eurToUsd);
 
-const dogsJulia = [3, 5, 2, 12, 7];
-const dogsKate = [4, 1, 15, 8, 3];
-// const dogsJulia = [9, 16, 6, 8, 3];
-// const dogsKate = [10, 5, 6, 1, 4];
+console.log(movements, movementsUsd);
 
-const dogsJuliaCorrect = dogsJulia.slice(1, -2);
+const movementsDescription = movements.map(
+  (mov, i) =>
+    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+      mov
+    )}`
+);
 
-const bothData = [...dogsJuliaCorrect, ...dogsKate];
+console.log(movementsDescription);
 
-const checkDogs = arr => {
-  arr.forEach((age, i) => {
-    const result =
-      age >= 3
-        ? `Dog number ${i + 1}
-    is an adult, and is ${age} years old 🐕‍🦺`
-        : `Dog number ${i + 1} is still a puppy 🐶`;
-    console.log(result);
+const createUserNames = accs => {
+  accs.forEach(acc => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
   });
 };
-checkDogs(bothData);
-// checkDogs(dogsKate);
 
-// TEACHER'S SOLUTION
+createUserNames(accounts);
 
-const checkDogs2 = function (dogsJulia2, dogsKate2) {
-  const dogsJuliaCorrected = dogsJulia2.slice();
-  dogsJuliaCorrected.splice(0, 1);
-  dogsJuliaCorrected.splice(-2);
+console.log(accounts);
 
-  const dogs = dogsJuliaCorrected.concat(dogsKate);
+// console.log(createUserNames('Steven Thomas Williams'));
+// accounts.forEach(account => createUserNames(account.owner));
 
-  dogs.forEach(function (dog, i) {
-    if (dog >= 3) {
-      console.log(`Dog number ${i + 1}
-    is an adult, and is ${dog} years old 🐕‍🦺`);
-    } else {
-      console.log(`Dog number ${i + 1} is still a puppy 🐶`);
-    }
-  });
-};
-checkDogs2([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
-checkDogs2([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
+// const user = 'Steven Thomas Williams'; //stw - username
