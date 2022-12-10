@@ -1,4 +1,6 @@
 'use strict';
+
+/////////////////////////////////////////////////
 // /* Working With Arrays
 // Coding Challenge #1 */
 
@@ -50,6 +52,8 @@
 // checkDogs2([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
 // checkDogs2([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
 
+/////////////////////////////////////////////////
+
 // the MAP method
 
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
@@ -87,6 +91,8 @@
 
 // // const user = 'Steven Thomas Williams'; //stw - username
 
+/////////////////////////////////////////////////
+
 // // the FILTER METHOD
 // // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -102,6 +108,8 @@
 
 // const withdrawals = movements.filter(mov => mov < 0);
 // console.log(withdrawals);
+
+/////////////////////////////////////////////////
 
 // THE REDUCE METHOD
 
@@ -135,6 +143,8 @@
 // );
 
 // console.log(greaterMov);
+
+/////////////////////////////////////////////////
 
 // Coding Challenge #2
 /* Let's go back to Julia and Kate's study about dogs. This time, they want to convert
@@ -170,6 +180,8 @@ Test data:
 // console.log('//////////////////////');
 // console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 
+/////////////////////////////////////////////////
+
 // Chaining method
 
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
@@ -192,6 +204,8 @@ Test data:
 
 // console.log(totaldepositsUSD);
 
+/////////////////////////////////////////////////
+
 /* Coding Challenge #3
 
 Rewrite the 'calcAverageHumanAge' function from Challenge #2, but this time
@@ -211,6 +225,25 @@ Test data:
 // console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
 // console.log('//////////////////////');
 // console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+
+/////////////////////////////////////////////////
+
+//The find Method
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const firstWithdrawal = movements.find(mov => mov < 0);
+
+// console.log(firstWithdrawal);
+
+// console.log(accounts);
+
+// const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+// console.log(account);
+
+// for (const acc of accounts) {
+//   if (acc.owner === 'Jessica Davis') {
+//     console.log(acc);
+//   }
+// }
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -299,37 +332,30 @@ const displayMovements = movements => {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovements(account1.movements);
 
 const calcAndDisplayBalance = movements => {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
 
   labelBalance.textContent = `${balance}€`;
 };
-calcAndDisplayBalance(account1.movements);
 
-const calcDisplaySummary = movements => {
-  const incomes = movements
+const calcDisplaySummary = acc => {
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes}€`;
 
-  const outcomes = movements
+  const outcomes = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(outcomes)}€`;
-
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(dep => (dep * 1.2) / 100)
-    .filter((int, i, arr) => {
-      console.log(arr);
-      return int >= 1;
-    })
+    .map(dep => (dep * acc.interestRate) / 100)
+    .filter(int => int >= 1)
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
-calcDisplaySummary(account1.movements);
 
 const createUserNames = accs => {
   accs.forEach(acc => {
@@ -342,20 +368,44 @@ const createUserNames = accs => {
 };
 createUserNames(accounts);
 /////////////////////////////////////////////////
+let currentAccount;
 
-//The find Method
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-const firstWithdrawal = movements.find(mov => mov < 0);
+const clearInputFields = () => {
+  // Clear input fields
+  labelWelcome.textContent = 'Log in to get started';
+  inputLoginPin.value = inputLoginUsername.value = '';
+  inputLoginPin.blur();
+  containerApp.style.opacity = '0';
+};
 
-console.log(firstWithdrawal);
+btnLogin.addEventListener('click', e => {
+  // prevent form from submiting
+  e.preventDefault();
 
-console.log(accounts);
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
 
-const account = accounts.find(acc => acc.owner === 'Jessica Davis');
-console.log(account);
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and message
+    clearInputFields();
+    console.log(currentAccount.owner);
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    // Clear input fields
 
-for (const acc of accounts) {
-  if (acc.owner === 'Jessica Davis') {
-    console.log(acc);
+    containerApp.style.opacity = '100';
+    // Display movements
+    displayMovements(currentAccount.movements);
+
+    // display balance
+    calcAndDisplayBalance(currentAccount.movements);
+
+    // display summary
+    calcDisplaySummary(currentAccount);
+  } else {
+    // Clear input fields
+    clearInputFields();
   }
-}
+});
