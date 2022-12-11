@@ -246,6 +246,18 @@ Test data:
 // }
 
 /////////////////////////////////////////////////
+// Some and every
+
+// condition
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// const anydeposits = movements.some(mov => mov > 0);
+
+// const anydeposits2 = movements.some(mov => mov > 5000);
+
+// console.log(anydeposits, anydeposits2);
+
+/////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
 
@@ -439,6 +451,27 @@ btnTransfer.addEventListener('click', e => {
   }
 });
 
+btnLoan.addEventListener('click', e => {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // Add movement
+    currentAccount.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+  } else {
+    alert(
+      `${currentAccount.owner}! Your loan request is bigger than you can get. Please try again with a smaller amount`
+    );
+  }
+
+  inputLoanAmount.value = '';
+  inputLoanAmount.blur();
+});
+
 btnClose.addEventListener('click', e => {
   e.preventDefault();
   if (
@@ -458,3 +491,26 @@ btnClose.addEventListener('click', e => {
   }
   inputCloseUsername.value = inputClosePin.value = '';
 });
+
+// Every Method
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+console.log(movements.every(mov => mov > 0));
+
+console.log(account4.movements.every(mov => mov > 0));
+
+// Separate callback
+
+const deposit = mov => mov > 0;
+
+console.log('///////////////////////');
+console.log(movements.some(deposit));
+console.log(movements.every(deposit));
+console.log(movements.filter(deposit));
+
+const WITHDRAWAL = mov => mov < 0;
+
+console.log('///////////////////////');
+console.log(movements.some(WITHDRAWAL));
+console.log(movements.every(WITHDRAWAL));
+console.log(movements.filter(WITHDRAWAL));
