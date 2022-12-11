@@ -258,6 +258,42 @@ Test data:
 // console.log(anydeposits, anydeposits2);
 
 /////////////////////////////////////////////////
+
+// Every Method
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// console.log(movements.every(mov => mov > 0));
+
+// console.log(account4.movements.every(mov => mov > 0));
+
+// // Separate callback
+
+// const deposit = mov => mov > 0;
+
+// console.log('///////////////////////');
+// console.log(movements.some(deposit));
+// console.log(movements.every(deposit));
+// console.log(movements.filter(deposit));
+
+// const WITHDRAWAL = mov => mov < 0;
+
+// console.log('///////////////////////');
+// console.log(movements.some(WITHDRAWAL));
+// console.log(movements.every(WITHDRAWAL));
+// console.log(movements.filter(WITHDRAWAL));
+
+/////////////////////////////////////////////////
+
+// Flat and Flatmap methods
+
+// const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+
+// console.log(arr.flat());
+
+// const arrDeep = [[1, [2, 2, 2, 2], 3], [4, 5, 6], 7, 8];
+// console.log(arrDeep.flat(2));
+
+/////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
 
@@ -492,25 +528,24 @@ btnClose.addEventListener('click', e => {
   inputCloseUsername.value = inputClosePin.value = '';
 });
 
-// Every Method
+// using flat() method
+const accountMovements = accounts.map(acc => acc.movements);
+console.log(accountMovements);
+const allMovements = accountMovements.flat();
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-console.log(movements.every(mov => mov > 0));
+console.log(allMovements);
+const overalBalance2 = allMovements.reduce((acc, cur) => acc + cur, 0);
+console.log(overalBalance2);
 
-console.log(account4.movements.every(mov => mov > 0));
+// Chaining method
+const overalBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, cur) => acc + cur, 0);
+console.log(overalBalance);
 
-// Separate callback
-
-const deposit = mov => mov > 0;
-
-console.log('///////////////////////');
-console.log(movements.some(deposit));
-console.log(movements.every(deposit));
-console.log(movements.filter(deposit));
-
-const WITHDRAWAL = mov => mov < 0;
-
-console.log('///////////////////////');
-console.log(movements.some(WITHDRAWAL));
-console.log(movements.every(WITHDRAWAL));
-console.log(movements.filter(WITHDRAWAL));
+// using flatMap() method
+const overalBalance3 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, cur) => acc + cur, 0);
+console.log(overalBalance3);
