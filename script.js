@@ -293,6 +293,76 @@ Test data:
 // const arrDeep = [[1, [2, 2, 2, 2], 3], [4, 5, 6], 7, 8];
 // console.log(arrDeep.flat(2));
 
+// using flat() method
+
+// const accountMovements = accounts.map(acc => acc.movements);
+// console.log(accountMovements);
+// const allMovements = accountMovements.flat();
+
+// console.log(allMovements);
+// const overalBalance2 = allMovements.reduce((acc, cur) => acc + cur, 0);
+// console.log(overalBalance2);
+
+// // Chaining method
+
+// const overalBalance = accounts
+//   .map(acc => acc.movements)
+//   .flat()
+//   .reduce((acc, cur) => acc + cur, 0);
+// console.log(overalBalance);
+
+// // using flatMap() method
+
+// const overalBalance3 = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((acc, cur) => acc + cur, 0);
+// console.log(overalBalance3);
+
+/////////////////////////////////////////////////
+
+// Sorting Arrays
+
+// Strings
+
+// const owners = ['Jonas', 'Martha', 'Zach', 'Adam'];
+// console.log(owners.sort());
+
+// // Numbers
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// console.log(movements.sort());
+
+// // return <0, A, B
+// // return >0 , B, A
+
+// // Ascendind
+// movements.sort((a, b) => {
+//   if (a > b) {
+//     return 1;
+//   }
+//   if (b > a) {
+//     return -1;
+//   }
+// });
+
+// console.log(movements);
+
+// // Descending
+// // odwrócono
+// // movements.sort((a, b) => {
+// //   if (a > b) {
+// //     return -1;
+// //   }
+// //   if (b > a) {
+// //     return 1;
+// //   }
+// // });
+
+// // ta sama matematyka innym algorytmem
+// movements.sort((a, b) => b - a);
+
+// console.log(movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
@@ -364,10 +434,13 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const displayMovements = movements => {
+const displayMovements = (movements, sort = false) => {
   containerMovements.innerHTML = '';
 
-  movements.forEach((mov, i) => {
+  // implementing sorting
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -528,24 +601,10 @@ btnClose.addEventListener('click', e => {
   inputCloseUsername.value = inputClosePin.value = '';
 });
 
-// using flat() method
-const accountMovements = accounts.map(acc => acc.movements);
-console.log(accountMovements);
-const allMovements = accountMovements.flat();
+let sorted = false;
 
-console.log(allMovements);
-const overalBalance2 = allMovements.reduce((acc, cur) => acc + cur, 0);
-console.log(overalBalance2);
-
-// Chaining method
-const overalBalance = accounts
-  .map(acc => acc.movements)
-  .flat()
-  .reduce((acc, cur) => acc + cur, 0);
-console.log(overalBalance);
-
-// using flatMap() method
-const overalBalance3 = accounts
-  .flatMap(acc => acc.movements)
-  .reduce((acc, cur) => acc + cur, 0);
-console.log(overalBalance3);
+btnSort.addEventListener('click', e => {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
