@@ -414,6 +414,68 @@ Test data:
 //   console.log(movementFromUI2);
 // });
 
+///////////////////////
+// Array methods practice
+// 1.
+// const bankDepositSum = accounts
+//   .flatMap(acc => acc.movements)
+//   .filter(mov => mov > 0)
+//   .reduce((sum, cur) => sum + cur, 0);
+
+// console.log(bankDepositSum);
+
+// // 2.
+
+// // first way:
+// // const numDeposits1000 = accounts
+// //   .flatMap(acc => acc.movements)
+// //   .filter(mov => mov >= 1000).length;
+
+// // second way(reduce method):
+// const numDeposits1000 = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
+
+// console.log(numDeposits1000);
+
+// // 3.
+// // The reduce method for everything
+
+// const { deposits, withdrawals } = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce(
+//     (sums, cur) => {
+//       // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+
+//       sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+//       return sums;
+//     },
+//     { deposits: 0, withdrawals: 0 }
+//   );
+
+// console.log({ deposits, withdrawals });
+
+// // 4.
+// // example:
+// // this is a nice title -> This Is a Nice Title
+
+// const convertTitleText = title => {
+//   const capitalize = str => str[0].toUpperCase() + str.slice(1);
+
+//   const exceptions = ['a', 'an', 'and', 'the', 'but', 'or', 'on', 'in', 'with'];
+
+//   const titleCase = title
+//     .toLowerCase()
+//     .split(' ')
+//     .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+//     .join(' ');
+
+//   return capitalize(titleCase);
+// };
+// console.log(convertTitleText('this is a nice title'));
+// console.log(convertTitleText('this is a LONG title but not too long'));
+// console.log(convertTitleText('and here is anoter title with EXAMPLE'));
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
@@ -660,67 +722,7 @@ btnSort.addEventListener('click', e => {
   sorted = !sorted;
 });
 
-// ////////////////////////////////////////////////////////
-// Array methods practice
-// 1.
-const bankDepositSum = accounts
-  .flatMap(acc => acc.movements)
-  .filter(mov => mov > 0)
-  .reduce((sum, cur) => sum + cur, 0);
-
-console.log(bankDepositSum);
-
-// 2.
-
-// first way:
-// const numDeposits1000 = accounts
-//   .flatMap(acc => acc.movements)
-//   .filter(mov => mov >= 1000).length;
-
-// second way(reduce method):
-const numDeposits1000 = accounts
-  .flatMap(acc => acc.movements)
-  .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
-
-console.log(numDeposits1000);
-
-// 3.
-// The reduce method for everything
-
-const { deposits, withdrawals } = accounts
-  .flatMap(acc => acc.movements)
-  .reduce(
-    (sums, cur) => {
-      // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
-
-      sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
-      return sums;
-    },
-    { deposits: 0, withdrawals: 0 }
-  );
-
-console.log({ deposits, withdrawals });
-
-// 4.
-// example:
-// this is a nice title -> This Is a Nice Title
-
-const convertTitleText = title => {
-  const capitalize = str => str[0].toUpperCase() + str.slice(1);
-
-  const exceptions = ['a', 'an', 'and', 'the', 'but', 'or', 'on', 'in', 'with'];
-
-  const titleCase = title
-    .toLowerCase()
-    .split(' ')
-    .map(word => (exceptions.includes(word) ? word : capitalize(word)))
-    .join(' ');
-
-  return capitalize(titleCase);
-};
-console.log(convertTitleText('this is a nice title'));
-console.log(convertTitleText('this is a LONG title but not too long'));
-console.log(convertTitleText('and here is anoter title with EXAMPLE'));
+// /////////////////////////////////
 
 // /////////////////////////////////////////////////////////////////////////////////////////////
 // CODING CHALLENGE 4
@@ -755,15 +757,27 @@ not create a new array, simply loop over the array. Forumla:
 recommendedFood = weight ** 0.75 * 28. (The result is in grams of
 food, and the weight needs to be in kg) */
 
+/* 
+//My solution:
+
 dogs.forEach(dog => {
   dog.recommendedFood = Math.round(dog.weight ** 0.75 * 28);
-});
+}); */
 
+// Teacher's solution:
+
+dogs.forEach(
+  dog => (dog.recommendedFood = Math.trunc(dog.weight ** 0.75 * 28))
+);
+console.log(dogs);
 /* 2. Find Sarah's dog and log to the console whether it's eating too much or too
 little. Hint: Some dogs have multiple owners, so you first need to find Sarah in
 the owners array, and so this one is a bit tricky (on purpose) � */
 
-const checkingPortion = dog => {
+/*
+//My solution:
+
+ const checkingPortion = dog => {
   // console.log(dog);
   if (
     dog.curFood > dog.recommendedFood * 0.9 &&
@@ -776,21 +790,39 @@ const checkingPortion = dog => {
   } else {
     console.log(`${dog.owners.join("'s, and ")}'s dog eating too much`);
   }
-};
-
-//2.
-dogs.forEach(dog => {
-  checkingPortion(dog);
-});
-
-const sarahDog = dogs.find(dog => dog.owners.includes('Sarah'));
+  }
+  // //2.
+  // dogs.forEach(dog => {
+  //   checkingPortion(dog);
+  // });
+  
+  // const sarahDog = dogs.find(dog => dog.owners.includes('Sarah'));
+; 
 
 // checkingPortion(sarahDog);
 // current > recommended * 0.9 && current < recommended * 1.1;
 
+*/
+
+// Teacher's solution
+
+const dogSarah = dogs.find(dog => dog.owners.includes('Sarah'));
+
+console.log(dogSarah);
+
+console.log(
+  `Sarah's dog is eating too  ${
+    dogSarah.curFood > dogSarah.recommendedFood ? 'much' : 'little'
+  }`
+);
+
 /* 3. Create an array containing all owners of dogs who eat too much
 ('ownersEatTooMuch') and an array with all owners of dogs who eat too little
 ('ownersEatTooLittle') */
+
+/* 
+
+// My solution:
 
 let ownersEatTooLittle = dogs
   .filter(dog => {
@@ -805,19 +837,49 @@ let ownersEatTooMuch = dogs
   .flatMap(owner => owner.owners);
 
 // console.log(ownersEatTooMuch);
-// console.log(ownersEatTooLittle);
+// console.log(ownersEatTooLittle); */
+
+// Teacher's solution
+
+const ownersEatTooMuch = dogs
+  .filter(dog => dog.curFood > dog.recommendedFood)
+  .flatMap(dog => dog.owners);
+
+const ownersEatTooLittle = dogs
+  .filter(dog => dog.curFood < dog.recommendedFood)
+  .flatMap(dog => dog.owners);
+
+console.log(ownersEatTooMuch);
+console.log(ownersEatTooLittle);
 console.log('///////////////////////////////');
 
 /* 4. Log a string to the console for each array created in 3., like this: "Matilda and
 Alice and Bob's dogs eat too much!" and "Sarah and John and Michael's dogs eat
 too little!" */
 
+/* 
+
+// My solution:
+
 console.log(`${ownersEatTooLittle.join("'s and ")}'s dogs eat too litle`);
 console.log(`${ownersEatTooMuch.join("'s and ")}'s dogs eat too much`);
+ */
+// Teacher's solution
 
-('///////////////////////////////');
+console.log(`${ownersEatTooMuch.join(' and ')}'s dogs eat too much`);
+
+console.log(`${ownersEatTooLittle.join(' and ')}'s dogs eat too little`);
+
+console.log('///////////////////////////////');
 /* 5. Log to the console whether there is any dog eating exactly the amount of food
 that is recommended (just true or false) */
+/* 
+// My solution:
+
+console.log(dogs.some(dog => dog.curFood === dog.recommendedFood));
+ */
+
+// Teacher's solution
 
 console.log(dogs.some(dog => dog.curFood === dog.recommendedFood));
 
@@ -825,17 +887,33 @@ console.log('///////////////////////////////');
 
 /* 6. Log to the console whether there is any dog eating an okay amount of food
 (just true or false) */
+/*
+// My solution:
+
 console.log(
   dogs.some(
     dog =>
       dog.curFood > dog.recommendedFood * 0.9 &&
       dog.curFood < dog.recommendedFood * 1.1
   )
-);
+); */
+
+// Teacher's solution:
+
+const checkEatingOk = dog =>
+  dog.curFood > dog.recommendedFood * 0.9 &&
+  dog.curFood < dog.recommendedFood * 1.1;
+
+console.log(dogs.some(checkEatingOk));
+
 console.log('///////////////////////////////');
 
 /* 7. Create an array containing the dogs that are eating an okay amount of food (try
 to reuse the condition used in 6.) */
+/* 
+
+// My solution:
+
 
 const dogsEtingOk = dogs.filter(
   dog =>
@@ -843,12 +921,19 @@ const dogsEtingOk = dogs.filter(
     dog.curFood < dog.recommendedFood * 1.1
 );
 
-console.log(dogsEtingOk);
+console.log(dogsEtingOk); */
 
+// Teacher's solution:
+
+console.log(dogs.filter(checkEatingOk));
 console.log('///////////////////////////////');
 /* 8. Create a shallow copy of the 'dogs' array and sort it by recommended food
 portion in an ascending order (keep in mind that the portions are inside the
 array's objects �) */
+/* 
+
+// My solution:
+
 
 const dogsSort = dogs
   .map(dog => dog)
@@ -860,4 +945,11 @@ const dogsSort = dogs
       return -1;
     }
   });
-console.log(dogsSort);
+console.log(dogsSort); */
+
+// Teacher's solution
+
+const dogsSorted = dogs
+  .slice()
+  .sort((a, b) => a.recommendedFood - b.recommendedFood);
+console.log(dogsSorted);
